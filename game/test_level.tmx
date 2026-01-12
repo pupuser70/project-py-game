@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="80" height="100" tilewidth="18" tileheight="18" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="../assets/tilemap_platform.tsx"/>
+ <layer id="1" name="floor" width="80" height="100" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJztzsEJADAIADGp7j+zfbqBtCRw/4sAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAf5xbjmp35zkNjzgAEA==
+  </data>
+ </layer>
+ <layer id="2" name="collision" width="80" height="100" locked="1" opacity="0.43">
+  <data encoding="base64" compression="zlib">
+   eJztwzENAAAIA7D5l4FSDOzgJm3SBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6YkrsFWGwDKw==
+  </data>
+ </layer>
+ <layer id="3" name="player" width="80" height="100" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJztzjENAAAIA7D5P1GMjJHQKmgCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADARdMO8NIC5X8Akw==
+  </data>
+ </layer>
+</map>
