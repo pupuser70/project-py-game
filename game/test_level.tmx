@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="80" height="100" tilewidth="18" tileheight="18" infinite="0" nextlayerid="4" nextobjectid="1">
- <tileset firstgid="1" source="../assets/tilemap_platform.tsx"/>
- <layer id="1" name="floor" width="80" height="100" locked="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="80" height="100" tilewidth="18" tileheight="18" infinite="0" nextlayerid="5" nextobjectid="1">
+ <tileset firstgid="1" source="../../../PythonProjectArcade/game/assets/Tiled/tileset-tiles.tsx"/>
+ <tileset firstgid="181" source="../../../PythonProjectArcade/game/assets/tilemap_platform.tsx"/>
+ <layer id="1" name="floor" width="80" height="100">
   <data encoding="base64" compression="zlib">
-   eJztzsEJADAIADGp7j+zfbqBtCRw/4sAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAf5xbjmp35zkNjzgAEA==
+   eJzt0CEOgDAQRcEtcKEG32Nzt7pWIEizGhAzyRPrfjYCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgHbVEtPL1iv87lx/V+76WyG2z/dEx60nkBnrlCJw=
   </data>
  </layer>
  <layer id="2" name="collision" width="80" height="100" locked="1" opacity="0.43">
   <data encoding="base64" compression="zlib">
-   eJztwzENAAAIA7D5l4FSDOzgJm3SBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP6YkrsFWGwDKw==
+   eJzt0DEKACAMBMH4SR/oSyWdRQorJTAD2x8XAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8M4cvxf0ld+dUVtF3NvSlwTe
+  </data>
+ </layer>
+ <layer id="4" name="ships" width="80" height="100" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJzt0EENACAMBMFiABH4V8gLEfcoTWYUbLYKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgNsdMNxe3QWz+ZfxL+Nfxr/M8Q++9AD9XQFp
   </data>
  </layer>
  <layer id="3" name="player" width="80" height="100" locked="1">
