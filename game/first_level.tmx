@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="60" tilewidth="18" tileheight="18" infinite="0" nextlayerid="4" nextobjectid="1">
+ <tileset firstgid="1" source="assets/tilemap_platform.tsx"/>
+ <layer id="1" width="40" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztlkEKwjAQRQPeQT2Gtq5tN0JPIHiELMS9unOvohfwqCaQYBynE5uIRfkP/qaZzjyyaEcpAAAAAAAAAAAAAAAAAL/Ipm+BCIe+BSJMTQqXMnheMClf3gb/yrpvAYGhychlLNRdg+T06crWRAdJ7f2pPrG+7/QO78qH9tDq+T5niX5HkxOTgRCuXsrZpEn0+xbwywN+ecCPx37XJurxb/E7lN2PFkrdfN08c85SmB/ubXQ3a5yfhHXTiV7SbD9fIubn3VL9YuT4hW7e72KyCs4rlzp4r8s+lepH3TTxqZjziqSmTZkeXE1brTTbxu4iOxfunGbPzKT7DFfTVhsL/PL87lDmWlQ=
+  </data>
+ </layer>
+ <layer id="2" name="ships" width="40" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20Hb6AAAAAAAAAAAAB4DCWAAAE=
+  </data>
+ </layer>
+</map>
