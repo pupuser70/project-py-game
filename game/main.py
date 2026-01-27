@@ -3,17 +3,20 @@ from arcade import Camera2D
 from pyglet.event import EVENT_HANDLE_STATE
 
 SCREEN_W = 1000
-SCREEN_H = 600
+SCREEN_H = 700
 
-GRAVITY = 7
+DEAD_ZONE_W = int(SCREEN_W * 0.35)
+DEAD_ZONE_H = int(SCREEN_H * 0.45)
+
+GRAVITY = 1
 MOVE_SPEED = 3
-JUMP_SPEED = 25
+JUMP_SPEED = 10
 LADDER_SPEED = 3
 
 COYOTE_TIME = 0.08
 JUMP_BUFFER = 0.12
 MAX_JUMPS = 1
-TILE_SCALING = 1
+TILE_SCALING = 2
 
 CAMERA_LERP = 0.12
 
@@ -27,8 +30,14 @@ class Test_Level(arcade.View):
     def setup(self):
         self.player_speed = MOVE_SPEED
 
-        self.world_camera = Camera2D()
+        #self.texture_hearts = arcade.load_texture('assets/')
+
         self.gui_camera = Camera2D()
+        self.gui_camera.position = (
+            90,
+            564
+        )
+
 
         self.keys_pressed = set()
 
@@ -37,6 +46,7 @@ class Test_Level(arcade.View):
         map_name = "test_level.tmx"
         tile_map = arcade.load_tilemap(map_name, scaling=TILE_SCALING)
 
+        self.ladders = tile_map.sprite_lists["lader"]
         self.floor_list = tile_map.sprite_lists["floor"]
         self.collision_list = tile_map.sprite_lists["collision"]
         self.player_list = tile_map.sprite_lists['player']
@@ -48,8 +58,9 @@ class Test_Level(arcade.View):
             walls=self.collision_list,
 
             #platforms=self.platforms,
-            #ladders=self.ladders
+            ladders=self.ladders
         )
+        self.can_jump = self.engine.can_jump
 
         self.jump_buffer_timer = 0
         self.time_since_ground = 999.0
@@ -60,8 +71,8 @@ class Test_Level(arcade.View):
 
         self.floor_list.draw()
         self.player_list.draw()
+        self.ladders.draw()
 
-        self.world_camera.use()
         self.gui_camera.use()
 
     def on_update(self, dt: float):
@@ -71,20 +82,24 @@ class Test_Level(arcade.View):
         elif self.right and not self.left:
             move = MOVE_SPEED
         self.player.change_x = move
-        """on_ladder = self.engine.is_on_ladder()  # На лестнице?
+
+        on_ladder = self.engine.is_on_ladder()  # На лестнице?
         if on_ladder:
+            self.can_jump = lambda y_distance: False
             # По лестнице вверх/вниз
             if self.up and not self.down:
                 self.player.change_y = LADDER_SPEED
             elif self.down and not self.up:
                 self.player.change_y = -LADDER_SPEED
             else:
-                self.player.change_y = 0"""
+                self.player.change_y = 0
+        else:
+            self.can_jump = self.engine.can_jump
 
         # Если не на лестнице — работает обычная гравитация движка
         # Прыжок: can_jump() + койот + буфер
         #self.jump_buffer_timer = COYOTE_TIME + JUMP_BUFFER
-        grounded = self.engine.can_jump(y_distance=6)  # Есть пол под ногами?
+        grounded = self.can_jump(y_distance=6)  # Есть пол под ногами?
         if grounded:
             self.time_since_ground = 0
             self.jumps_left = MAX_JUMPS
@@ -108,21 +123,23 @@ class Test_Level(arcade.View):
         # Обновляем физику — движок сам двинет игрока и платформы
         self.engine.update()
 
-        target = (self.player.center_x, self.player.center_y)
-        cx, cy = self.world_camera.position
-        smooth = (cx + (target[0] - cx) * CAMERA_LERP,
-                  cy + (target[1] - cy) * CAMERA_LERP)
+        ch_y = self.player.center_y
+        ch_x = self.player.center_x
+        if ch_y <= 563:
+            ch_y = 563
 
-        half_w = self.world_camera.viewport_width / 2
-        half_h = self.world_camera.viewport_height / 2
+        if ch_x <= 502:
+            ch_x = 502
 
-        world_w = 2000  # Мы руками построили пол до x = 2000
-        world_h = 900
-        cam_x = max(half_w, min(world_w - half_w, smooth[0]))
-        cam_y = max(half_h, min(world_h - half_h, smooth[1]))
-
-        self.world_camera.position = (cam_x, cam_y)
-        self.gui_camera.position = (SCREEN_W / 2, SCREEN_H / 2)
+        position = (
+            ch_x,
+            ch_y
+        )
+        self.gui_camera.position = arcade.math.lerp_2d(  # Изменяем позицию камеры
+            self.gui_camera.position,
+            position,
+            CAMERA_LERP,  # Плавность следования камеры
+        )
 
     def on_key_press(self, key, modifiers):
         if key in (arcade.key.LEFT, arcade.key.A):

@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="80" height="100" tilewidth="18" tileheight="18" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="80" height="100" tilewidth="18" tileheight="18" infinite="0" nextlayerid="6" nextobjectid="1">
  <tileset firstgid="1" source="../../../PythonProjectArcade/game/assets/Tiled/tileset-tiles.tsx"/>
  <tileset firstgid="181" source="../../../PythonProjectArcade/game/assets/tilemap_platform.tsx"/>
  <layer id="1" name="floor" width="80" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt0CEOgDAQRcEtcKEG32Nzt7pWIEizGhAzyRPrfjYCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgHbVEtPL1iv87lx/V+76WyG2z/dEx60nkBnrlCJw=
+   eJzt0DsKgDAQQMFEvVCw99Z+jqeCRQiCIKIBZ+AVC1ssGwIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABvGLOAOqQYwhC/vqJ+ffGjdMxTEeearTaru9jffznfbHn+fADgh1bhAxFO
   </data>
  </layer>
- <layer id="2" name="collision" width="80" height="100" locked="1" opacity="0.43">
+ <layer id="2" name="collision" width="80" height="100" opacity="0.47">
   <data encoding="base64" compression="zlib">
-   eJzt0DEKACAMBMH4SR/oSyWdRQorJTAD2x8XAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8M4cvxf0ld+dUVtF3NvSlwTe
+   eJzt1VEKABAQBFAu6YBO6pPEj5DyXs0FpnYnBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG5IsQZ4h5tc1/41Pc7lQfrudgYAOLu1P+xvAay1Fzg=
   </data>
  </layer>
- <layer id="4" name="ships" width="80" height="100" locked="1">
+ <layer id="5" name="lader" width="80" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt0EENACAMBMFiABH4V8gLEfcoTWYUbLYKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgNsdMNxe3QWz+ZfxL+Nfxr/M8Q++9AD9XQFp
+   eJzt0FEJAEAIBUH7J70QflwIEXkwk2DZKgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALa964BwfR0Qzr8Z/2b8AwDI8wG31QTZ
   </data>
  </layer>
- <layer id="3" name="player" width="80" height="100" locked="1">
+ <layer id="4" name="ships" width="80" height="100">
   <data encoding="base64" compression="zlib">
-   eJztzjENAAAIA7D5P1GMjJHQKmgCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADARdMO8NIC5X8Akw==
+   eJztw7ENAAAIA6D+/7GbH3TUBRISAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAODSlAAA3xY51QbQ
+  </data>
+ </layer>
+ <layer id="3" name="player" width="80" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztziEBAAAIA7D3lyQmwh2YLcESAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOjmOwAAwIkFLMoAkw==
   </data>
  </layer>
 </map>
