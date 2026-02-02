@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="60" tilewidth="18" tileheight="18" infinite="0" nextlayerid="4" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="60" tilewidth="18" tileheight="18" infinite="0" nextlayerid="13" nextobjectid="1">
  <tileset firstgid="1" source="assets/tilemap_platform.tsx"/>
- <layer id="1" width="40" height="60">
+ <tileset firstgid="181" source="../../../PythonProjectArcade/game/assets/tilemap_platform.tsx"/>
+ <tileset firstgid="361" source="fon.tsx"/>
+ <layer id="10" name="fon" width="40" height="60">
   <data encoding="base64" compression="zlib">
-   eJztlkEKwjAQRQPeQT2Gtq5tN0JPIHiELMS9unOvohfwqCaQYBynE5uIRfkP/qaZzjyyaEcpAAAAAAAAAAAAAAAAAL/Ipm+BCIe+BSJMTQqXMnheMClf3gb/yrpvAYGhychlLNRdg+T06crWRAdJ7f2pPrG+7/QO78qH9tDq+T5niX5HkxOTgRCuXsrZpEn0+xbwywN+ecCPx37XJurxb/E7lN2PFkrdfN08c85SmB/ubXQ3a5yfhHXTiV7SbD9fIubn3VL9YuT4hW7e72KyCs4rlzp4r8s+lepH3TTxqZjziqSmTZkeXE1brTTbxu4iOxfunGbPzKT7DFfTVhsL/PL87lDmWlQ=
+   eJztVssOAyEI3H5ut730cenj48vFxBCBAbHZA5NMIi3iqMC6bYVCoVAoFAqFQqFQKBQKOs6n/3AnXojXjohvJG4jGsMbl+9B8o3G9NI6v2YjZ7xKo0c71yzlzj6YP3unVv7tg7F2lp51IzmqnZu1tnVOkXzg/si9emooux+h+rLXQ/PSqylTM3L/o/znejUfbY+WL2LfiHfig/hkdhtrPtIcxBexX8Q38UP8MruNNR9pDuKL2CvrL+Kv9Zfod0uKidaE9r9VS6vOF9U/6hv/fgN4vsdH40x/WtEHPf1vptdF43r630yvi8blv/fjTL4mKe0zusZR95l1TqM7l/LAe/6ov2eulsdSPEk/X8+jfeTL3weZ77VZm2vMfq9l2Bl9aqUt6YvUmOaH5HJvN/S/90D1jOpB8ov0GkufxdkasMD1WXfa2HxnawDV1q9pfZ+iOaDlGaLvB8BHTDY=
+  </data>
+ </layer>
+ <layer id="12" name="end" width="40" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztzjENADAIADCmBRH4d4aDXSRsSaugEQAAAAAA/CjP9uCuHv8BAADAhAagSQBd
+  </data>
+ </layer>
+ <layer id="1" name="floor" width="40" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztluEJwjAQRgPuoI5R9b9xCsERsoI6g7qke5hCCud5SUsbUeh78KD0rncf/XXOAQAAAAAAAAAAAADMj010m9yJ90/x3qoD/IpldJVc/8EczTkahGNn15rTN3fIbPmvOvWM4Or8z1v0brgoaPWXfEzIBwDzphHP3Q2l76P9xB3HQk3ebdbu5uOLd9psYWSuvt1DKOXrso3NV4NcPplN5juJuk8evhXO2fl0tqDyeKPulVZmPcPqyfWWdre2t8gladW1V2Onvmesnlxvn+Sblu8FkG9QWQ==
+  </data>
+ </layer>
+ <layer id="5" name="lader" width="40" height="60" locked="1">
+  <data encoding="base64" compression="zlib">
+   eJzt1MEJACAMBMEUZRH2X5ENCBEi3GemgVsIpAoAAAAAAAD4YaUDGjsd0NA3o29G3136r3X76bt1+/pm++k+eHUA7icEjQ==
   </data>
  </layer>
  <layer id="2" name="ships" width="40" height="60">
   <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20Hb6AAAAAAAAAAAAB4DCWAAAE=
+   eJzt1jEKACAMA8B8zn/6TTf3giAuRbiDbB0yhSYAAAAAAADAKgHo8NMOjWR2dwA4ufnt6s3r/m4+DBFv
+  </data>
+ </layer>
+ <layer id="8" name="platforms" width="40" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt1LEJAAAIBLHfv3VhWxtbQUjgVrgEAAAAAAAAbtQIgD+8G2DXx9QC4A==
+  </data>
+ </layer>
+ <layer id="4" name="collision" width="40" height="60" opacity="0.63">
+  <data encoding="base64" compression="zlib">
+   eJzt1jEOgCAMAED8pP9/ijPGpkgoDt4lLAptE8DaGgAAAAAA/M959CN6fn8PX1l1JqvO9qp783Qfq+rLYo+sqdqXqgEwI/pXiuZU5M++xSPrK3KPxqiobZUof1bbrh7zFHukJ8/0xTf7Xd1zo/qyObuor3cBCg8tiw==
+  </data>
+ </layer>
+ <layer id="7" name="jumping" width="40" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt1jENAAAIBLE3jP+VoIIEWgU3XgIAAAAAAMCo7QAAgAM8Fd80omYA2w==
   </data>
  </layer>
 </map>

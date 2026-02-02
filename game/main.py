@@ -1,6 +1,8 @@
 import arcade
 from arcade import Camera2D
-from pyglet.event import EVENT_HANDLE_STATE
+import player_f
+
+LEVEL = 1
 
 SCREEN_W = 1000
 SCREEN_H = 700
@@ -8,29 +10,68 @@ SCREEN_H = 700
 DEAD_ZONE_W = int(SCREEN_W * 0.35)
 DEAD_ZONE_H = int(SCREEN_H * 0.45)
 
-GRAVITY = 1
-MOVE_SPEED = 3
-JUMP_SPEED = 10
-LADDER_SPEED = 3
+SCALE_HEART = 2
 
-COYOTE_TIME = 0.08
 JUMP_BUFFER = 0.12
-MAX_JUMPS = 1
+GRAVITY = 1
+
 TILE_SCALING = 2
 
 CAMERA_LERP = 0.12
 
+
 class Open_scene(arcade.View):
-    def __init__(self):
+    def __init__(self, window):
         super().__init__()
-        self.player_list = arcade.SpriteList()
-        self.wall_list = arcade.SpriteList()
+        self.window = window
 
-class Test_Level(arcade.View):
     def setup(self):
-        self.player_speed = MOVE_SPEED
+        self.open_picture = arcade.Sprite('images/Text_start.png', 4)
+        self.open_picture.center_x = 500
+        self.open_picture.center_y = 350
+        self.lis_draw = arcade.SpriteList()
+        self.lis_draw.append(self.open_picture)
 
-        #self.texture_hearts = arcade.load_texture('assets/')
+    def on_draw(self):
+        self.lis_draw.draw()
+
+    def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
+        if 350 <= x <= 655 and 336 <= y <= 396:
+            level = First_Level()
+            level.setup(self.window)
+            self.window.show_view(level)
+
+
+class End_scene(arcade.View):
+    def __init__(self, window):
+        super().__init__()
+        self.window = window
+
+    def setup(self):
+        self.end_picture = arcade.Sprite('images/End.png', 4)
+        self.end_picture.center_x = 600
+        self.end_picture.center_y = 300
+        self.lis_draw = arcade.SpriteList()
+        self.lis_draw.append(self.end_picture)
+
+    def on_draw(self):
+        self.lis_draw.draw()
+
+    def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
+        if 485 <= x <= 585 and 305 <= y <= 365:
+            level = First_Level()
+            level.setup(self.window)
+            self.window.show_view(level)
+
+
+class First_Level(arcade.View):
+    def setup(self, window):
+        self.gravity = GRAVITY
+        self.window = window
+
+        self.texture_heart_full = arcade.load_texture('images/full_heart.png')
+        self.texture_heart_not_full = arcade.load_texture('images/not_full_heart.png')
+        self.texture_heart_half = arcade.load_texture('images/half_heart.png')
 
         self.gui_camera = Camera2D()
         self.gui_camera.position = (
@@ -38,98 +79,94 @@ class Test_Level(arcade.View):
             564
         )
 
+        self.map_name = "first_level.tmx"
+        tile_map = arcade.load_tilemap(self.map_name, scaling=TILE_SCALING)
 
-        self.keys_pressed = set()
-
-        self.left = self.right = self.up = self.down = self.jump_pressed = False
-
-        map_name = "test_level.tmx"
-        tile_map = arcade.load_tilemap(map_name, scaling=TILE_SCALING)
-
+        self.end = self.fon = tile_map.sprite_lists["end"]
+        self.fon = tile_map.sprite_lists["fon"]
         self.ladders = tile_map.sprite_lists["lader"]
         self.floor_list = tile_map.sprite_lists["floor"]
         self.collision_list = tile_map.sprite_lists["collision"]
-        self.player_list = tile_map.sprite_lists['player']
-        self.player = self.player_list[0]
+        self.jumping_list = tile_map.sprite_lists['jumping']
+        self.ships_list = tile_map.sprite_lists['ships']
+        self.platforms_list = tile_map.sprite_lists['platforms']
+        self.delta_platforms_list = arcade.SpriteList()
+        self.delta_platforms_list.extend(self.platforms_list)
+
+        self.heart_list = arcade.SpriteList()
+        for i in range(3):
+            self.heart_list.append(arcade.Sprite(self.texture_heart_full, SCALE_HEART))
+
+        self.player = player_f.Player_C(self.jumping_list, self.ships_list,
+                                        self.delta_platforms_list,
+                                        self.platforms_list, self.heart_list)
 
         self.engine = arcade.PhysicsEnginePlatformer(
             player_sprite=self.player,
-            gravity_constant=GRAVITY,
+            gravity_constant=self.gravity,
             walls=self.collision_list,
 
-            #platforms=self.platforms,
+            platforms=self.delta_platforms_list,
             ladders=self.ladders
         )
-        self.can_jump = self.engine.can_jump
+        self.heats = 3
 
-        self.jump_buffer_timer = 0
-        self.time_since_ground = 999.0
-        self.jumps_left = MAX_JUMPS
+        self.player.engine = self.engine
+        self.player.setup()
+        self.player_list = arcade.SpriteList()
+        self.player_list.append(self.player)
 
     def on_draw(self):
         self.clear()
 
+        self.fon.draw()
+        self.platforms_list.draw()
+        self.jumping_list.draw()
         self.floor_list.draw()
-        self.player_list.draw()
         self.ladders.draw()
-
+        self.ships_list.draw()
+        self.end.draw()
+        self.player_list.draw()
+        self.heart_list.draw()
         self.gui_camera.use()
 
     def on_update(self, dt: float):
-        move = 0
-        if self.left and not self.right:
-            move = -MOVE_SPEED
-        elif self.right and not self.left:
-            move = MOVE_SPEED
-        self.player.change_x = move
+        if arcade.check_for_collision_with_list(self.player, self.end):
+            end_good = End_Good_Scene(self.window)
+            end_good.setup()
+            self.window.show_view(end_good)
+        self.player.updat(dt)
+        self.player.updat_animation()
+        self.heart_list[0].center_x = self.gui_camera.position[0] - 450
+        self.heart_list[1].center_x = self.gui_camera.position[0] - 420
+        self.heart_list[2].center_x = self.gui_camera.position[0] - 390
 
-        on_ladder = self.engine.is_on_ladder()  # На лестнице?
-        if on_ladder:
-            self.can_jump = lambda y_distance: False
-            # По лестнице вверх/вниз
-            if self.up and not self.down:
-                self.player.change_y = LADDER_SPEED
-            elif self.down and not self.up:
-                self.player.change_y = -LADDER_SPEED
-            else:
-                self.player.change_y = 0
-        else:
-            self.can_jump = self.engine.can_jump
+        self.heart_list[0].center_y = self.gui_camera.position[1] + 300
+        self.heart_list[1].center_y = self.gui_camera.position[1] + 300
+        self.heart_list[2].center_y = self.gui_camera.position[1] + 300
 
-        # Если не на лестнице — работает обычная гравитация движка
-        # Прыжок: can_jump() + койот + буфер
-        #self.jump_buffer_timer = COYOTE_TIME + JUMP_BUFFER
-        grounded = self.can_jump(y_distance=6)  # Есть пол под ногами?
-        if grounded:
-            self.time_since_ground = 0
-            self.jumps_left = MAX_JUMPS
-        else:
-            self.time_since_ground += dt
+        if self.player.heats == 2:
+            self.heart_list[2].texture = self.texture_heart_not_full
+        if self.player.heats == 1:
+            self.heart_list[1].texture = self.texture_heart_not_full
+        if self.player.heats == 0:
+            self.heart_list[0].texture = self.texture_heart_not_full
+            end = End_scene(self.window)
+            end.setup()
+            self.window.show_view(end)
 
-        # Учтём «запомненный» пробел
-        if self.jump_buffer_timer > 0:
-            self.jump_buffer_timer -= dt
-
-        want_jump = self.jump_pressed or (self.jump_buffer_timer > 0)
-
-        # Можно прыгать, если стоим на земле или в пределах койот-времени
-        if want_jump:
-            can_coyote = (self.time_since_ground <= COYOTE_TIME)
-            if grounded or can_coyote:
-                # Просим движок прыгнуть: он корректно задаст начальную вертикальную скорость
-                self.engine.jump(JUMP_SPEED)
-                self.jump_buffer_timer = 0
-
-        # Обновляем физику — движок сам двинет игрока и платформы
         self.engine.update()
 
         ch_y = self.player.center_y
         ch_x = self.player.center_x
-        if ch_y <= 563:
-            ch_y = 563
+        if ch_y <= 450:
+            ch_y = 350
 
         if ch_x <= 502:
             ch_x = 502
+
+        if ch_x >= 938:
+            ch_x = 938
 
         position = (
             ch_x,
@@ -142,40 +179,64 @@ class Test_Level(arcade.View):
         )
 
     def on_key_press(self, key, modifiers):
+        self.player.keys_pressed.add(key)
         if key in (arcade.key.LEFT, arcade.key.A):
-            self.left = True
+            self.player.lef = True
+            self.player.stay_l = False
         elif key in (arcade.key.RIGHT, arcade.key.D):
-            self.right = True
+            self.player.righ = True
+            self.player.stay_r = False
         elif key in (arcade.key.UP, arcade.key.W):
-            self.up = True
+            self.player.up = True
         elif key in (arcade.key.DOWN, arcade.key.S):
-            self.down = True
+            self.player.down = True
         elif key == arcade.key.SPACE:
-            self.jump_pressed = True
-            self.jump_buffer_timer = JUMP_BUFFER
+            self.player.jump_pressed = True
+            self.player.jump_buffer_timer = JUMP_BUFFER
 
     def on_key_release(self, key, modifiers):
+        self.player.keys_pressed.remove(key)
         if key in (arcade.key.LEFT, arcade.key.A):
-            self.left = False
+            self.player.lef = False
+            self.player.stay_l = True
         elif key in (arcade.key.RIGHT, arcade.key.D):
-            self.right = False
+            self.player.righ = False
+            self.player.stay_r = True
         elif key in (arcade.key.UP, arcade.key.W):
-            self.up = False
+            self.player.up = False
         elif key in (arcade.key.DOWN, arcade.key.S):
-            self.down = False
+            self.player.down = False
         elif key == arcade.key.SPACE:
-            self.jump_pressed = False
+            self.player.jump_pressed = False
             # Вариативная высота прыжка: отпустили рано — подрежем скорость вверх
             if self.player.change_y > 0:
-                self.player.change_y *= 0.45
+                self.player.change_y *= 0.4
+
+
+class End_Good_Scene(arcade.View):
+    def __init__(self, window):
+        super().__init__()
+        self.window = window
+
+    def setup(self):
+        self.end_picture = arcade.Sprite('images/End_good.png', 4)
+        self.end_picture.center_x = 600
+        self.end_picture.center_y = 300
+        self.lis_draw = arcade.SpriteList()
+        self.lis_draw.append(self.end_picture)
+
+    def on_draw(self):
+        self.lis_draw.draw()
+
+
 
 def main():
     window = arcade.Window(SCREEN_W, SCREEN_H, "игра")
-    start_view = Test_Level()
-    start_view.setup()
-
-    window.show_view(start_view)
+    start_scene = Open_scene(window)
+    start_scene.setup()
+    window.show_view(start_scene)
     arcade.run()
+
 
 if __name__ == "__main__":
     main()
